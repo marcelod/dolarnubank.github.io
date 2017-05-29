@@ -105,7 +105,7 @@ function usdToBrl() {
     }
 
     $brl.value = round(value);
-    window.location = '#dolar=' + usd;
+    location.replace('#dolar=' + usd);
 }
 
 function brlToUsd() {
@@ -126,7 +126,7 @@ function brlToUsd() {
     }
 
     $usd.value = round(value);
-    window.location = '#real=' + brl;
+    location.replace('#real=' + brl);
 }
 
 function round(value) {
