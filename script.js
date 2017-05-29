@@ -145,6 +145,7 @@ var script = document.createElement('script');
 var param = 'q=' + query + '&format=json&callback=' + jsonpCallback;
 
 script.src = 'https://query.yahooapis.com/v1/public/yql?' + param;
+script.async = 'async';
 document.body.appendChild(script);
 
 })(window, document);
