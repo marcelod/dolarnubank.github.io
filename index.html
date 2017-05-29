@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Dólar Nubank</title>
+
+        <meta name="description" content="Descubra quanto vale o dólar do Nubank nesse momento">
+        <meta name="author" content="Gabriel Santos">
+        <meta name="robots" content="noarchive,noodp">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+        <meta name="theme-color" content="#6E2B77">
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="canonical" href="https://dolarnubank.github.io">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic">
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <a href=".">
+                <h1>Dólar Nubank</h1>
+            </a>
+        </header>
+
+
+        <div id="layout">
+            <form action="#" spellcheck="false">
+                <div class="moeda left">
+                    <label for="usd">US$</label>
+                    <input type="text" id="usd" disabled>
+                </div>
+
+                <div class="moeda right">
+                    <label for="brl">R$</label>
+                    <input type="text" id="brl" disabled>
+                </div>
+
+                <div id="vars" class="clear">
+                    <label for="iof">IOF (%)</label>
+                    <input type="text" id="iof" value="6,38">
+
+                    <label for="spread">Spread (%)</label>
+                    <input type="text" id="spread" value="4,073">
+                </div>
+            </form>
+        </div>
+
+
+        <script src="script.js"></script>
+        <script src="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D%22https%3A%2F%2Fwww.bcb.gov.br%2Fapi%2Fconteudo%2Fpt-br%2FPAINEL_INDICADORES%2Fcambio%22&format=json&diagnostics=true&callback=onReceiveData"></script>
+    </body>
+</html>
