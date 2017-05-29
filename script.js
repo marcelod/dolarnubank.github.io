@@ -3,16 +3,22 @@
 
 var $usd = document.getElementById('usd');
 var $brl = document.getElementById('brl');
+var $ptax = document.getElementById('ptax');
 var $iof = document.getElementById('iof');
 var $spread = document.getElementById('spread');
 
-var dolarPtax;
+var defaultIof = 6.38;
+var defaultSpread = 4.073; // [carece de fontes]
 
 var jsonpCallback = 'onReceiveData';
 
 window[jsonpCallback] = function(response) {
     try {
-        dolarPtax = +response.query.results.json.conteudo[0].valorVenda;
+        $ptax.value = numToStr(response.query.results.json.conteudo[0].
+            valorVenda);
+
+        $iof.value = numToStr(defaultIof);
+        $spread.value = numToStr(defaultSpread);
     }
     catch(e) {
         $usd.value = 'Erro';
@@ -42,8 +48,15 @@ window[jsonpCallback] = function(response) {
         usdToBrl();
         $usd.focus();
     }
-
 };
+
+function strToNum(str) {
+    return +str.replace(',', '.');
+}
+
+function numToStr(num) {
+    return ('' + num).replace('.', ',');
+}
 
 function queryStringParse(q) {
     var vars = q.split('&'),
@@ -66,55 +79,64 @@ function queryStringParse(q) {
 }
 
 function getIof() {
-    return +($iof.value.replace(',', '.')) / 100;
+    return strToNum($iof.value) / 100;
 }
 
 function getSpread() {
-    return +($spread.value.replace(',', '.')) / 100;
+    return strToNum($spread.value) / 100;
 }
 
-function getDolar() {
-    return dolarPtax * (1 + getSpread());
+function getDollar() {
+    return strToNum($ptax.value) * (1 + getSpread());
 }
 
 function usdToBrl() {
-    var usd = +$usd.value.replace(',', '.');
+    // Valor da compra em dólar
+    var usd = strToNum($usd.value);
 
-    var valor = usd * getDolar();
+    // Multiplica pelo valor do dólar ptax com spread
+    var value = usd * getDollar();
 
-    valor += getIof() * valor;
+    // Adiciona o IOF
+    value += getIof() * value;
 
-    if (isNaN(valor)) {
+    if (isNaN(value)) {
         return;
     }
 
-    $brl.value = arredondar(valor);
+    $brl.value = round(value);
     window.location = '#dolar=' + usd;
 }
 
 function brlToUsd() {
-    var brl = +$brl.value.replace(',', '.');
+    // Valor da compra em reais
+    var brl = strToNum($brl.value);
 
-    var valor = brl / (1 + getIof());
+    // Descobre o valor em dólar sem o IOF
+    // USD + USD*IOF = BRL
+    // USD*(1 + IOF) = BRL
+    // USD = BRL/(1 + IOF)
+    var value = brl / (1 + getIof());
 
-    valor /= getDolar();
+    // Divide pelo valor de 1 dólar com spread
+    value /= getDollar();
 
-    if (isNaN(valor)) {
+    if (isNaN(value)) {
         return;
     }
 
-    $usd.value = arredondar(valor);
+    $usd.value = round(value);
     window.location = '#real=' + brl;
 }
 
-function arredondar(valor) {
+function round(value) {
     // Arredondar valor final (https://stackoverflow.com/a/18358056)
-    valor = +(Math.round(valor + "e+2")  + "e-2");
+    value = +(Math.round(value + "e+2")  + "e-2");
 
-    // Duas casas decimais e substituir ponto por vírgula
-    valor = (valor).toFixed(2).replace('.', ',');
+    // Garantir que vai usar duas casas decimais
+    value = numToStr(value.toFixed(2));
 
-    return valor;
+    return value;
 }
 
 function zero(n) {
@@ -131,16 +153,20 @@ onInput($usd, usdToBrl);
 onInput($brl, brlToUsd);
 onInput($iof, usdToBrl);
 onInput($spread, usdToBrl);
+onInput($ptax, usdToBrl);
 
 
-
+// Pegar dados do Banco Central usando a api do Yahoo YQL
 var d = new Date();
 var nocache = '' + d.getFullYear()
     + zero(d.getMonth() + 1)
     + zero(d.getDate())
     + zero(d.getHours());
 
-var query = 'select * from json where url="https://www.bcb.gov.br/api/conteudo/pt-br/PAINEL_INDICADORES/cambio?' + nocache + '"';
+var query = 'select * from json where url="';
+query += 'https://www.bcb.gov.br/api/conteudo/pt-br/PAINEL_INDICADORES/cambio?';
+query += nocache + '"';
+
 query = encodeURIComponent(query);
 
 var script = document.createElement('script');
