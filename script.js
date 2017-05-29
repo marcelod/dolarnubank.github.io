@@ -66,15 +66,11 @@ function queryStringParse(q) {
 }
 
 function getIof() {
-    var iof = +($iof.value.replace(',', '.'));
-
-    return iof / 100;
+    return +($iof.value.replace(',', '.')) / 100;
 }
 
 function getSpread() {
-    var spread = +($spread.value.replace(',', '.'));
-
-    return spread / 100;
+    return +($spread.value.replace(',', '.')) / 100;
 }
 
 function getDolar() {
@@ -121,6 +117,10 @@ function arredondar(valor) {
     return valor;
 }
 
+function zero(n) {
+    return n < 10 ? '0' + n : n;
+}
+
 function onInput(obj, callback) {
     obj.addEventListener('input', function() {
         callback();
@@ -135,7 +135,10 @@ onInput($spread, usdToBrl);
 
 
 var d = new Date();
-var nocache = '' + d.getFullYear() + (d.getMonth() + 1) + d.getDate() + d.getHours();
+var nocache = '' + d.getFullYear()
+    + zero(d.getMonth() + 1)
+    + zero(d.getDate())
+    + zero(d.getHours());
 
 var query = 'select * from json where url="https://www.bcb.gov.br/api/conteudo/pt-br/PAINEL_INDICADORES/cambio?' + nocache + '"';
 query = encodeURIComponent(query);
