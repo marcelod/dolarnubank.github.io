@@ -8,7 +8,9 @@ var $spread = document.getElementById('spread');
 
 var dolarPtax;
 
-window.onReceiveData = function(response) {
+var jsonpCallback = 'onReceiveData';
+
+window[jsonpCallback] = function(response) {
     try {
         dolarPtax = +response.query.results.json.conteudo[0].valorVenda;
     }
@@ -129,5 +131,20 @@ onInput($usd, usdToBrl);
 onInput($brl, brlToUsd);
 onInput($iof, usdToBrl);
 onInput($spread, usdToBrl);
+
+
+
+var d = new Date();
+var nocache = '' + d.getFullYear() + (d.getMonth() + 1) + d.getDate() + d.getHours();
+
+var query = 'select * from json where url="https://www.bcb.gov.br/api/conteudo/pt-br/PAINEL_INDICADORES/cambio?' + nocache + '"';
+query = encodeURIComponent(query);
+
+var script = document.createElement('script');
+
+var param = 'q=' + query + '&format=json&callback=' + jsonpCallback;
+
+script.src = 'https://query.yahooapis.com/v1/public/yql?' + param;
+document.body.appendChild(script);
 
 })(window, document);
