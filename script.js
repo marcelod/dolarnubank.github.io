@@ -100,11 +100,14 @@ function usdToBrl() {
     // Adiciona o IOF
     value += getIof() * value;
 
+    // Arredondar valor
+    value = round(value);
+
     if (isNaN(value)) {
         return;
     }
 
-    $brl.value = round(value);
+    $brl.value = numToStr(value);
     location.replace('#dolar=' + usd);
 }
 
@@ -121,11 +124,14 @@ function brlToUsd() {
     // Divide pelo valor de 1 dólar com spread
     value /= getDollar();
 
+    // Arredondar valor
+    value = round(value);
+
     if (isNaN(value)) {
         return;
     }
 
-    $usd.value = round(value);
+    $usd.value = numToStr(value);
     location.replace('#real=' + brl);
 }
 
@@ -134,7 +140,7 @@ function round(value) {
     value = +(Math.round(value + "e+2")  + "e-2");
 
     // Garantir que vai usar duas casas decimais
-    value = numToStr(value.toFixed(2));
+    value = value.toFixed(2);
 
     return value;
 }
