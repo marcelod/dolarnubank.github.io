@@ -73,7 +73,8 @@ h1 {
 }
 
 label {
-    color: #6E2B77
+    color: #6E2B77;
+    text-align: right
 }
 
 .moeda input[type="text"] {
