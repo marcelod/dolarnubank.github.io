@@ -5,11 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg2"
-   viewBox="0 0 823.7288 823.72881"
+   width="232.47458mm"
    height="232.47458mm"
-   width="232.47458mm">
+   viewBox="0 0 823.7288 823.72881"
+   id="svg2"
+   version="1.1">
   <defs
      id="defs4" />
   <metadata
@@ -24,24 +24,20 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect
-     style="opacity:1;fill:#6e2b7f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:46;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     id="rect4141"
-     width="823.72882"
-     height="823.72882"
-     x="0"
-     y="0" />
-  <flowRoot
-     xml:space="preserve"
-     id="flowRoot4143"
-     style="font-style:normal;font-weight:normal;font-size:673.10308838px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     transform="translate(174.82963,42.93883)"><flowRegion
-       id="flowRegion4145"><rect
-         id="rect4147"
-         width="1551.5597"
-         height="1608.6024"
-         x="46.574062"
-         y="-63.75375"
-         style="fill:#ffffff" /></flowRegion><flowPara
-       id="flowPara4149"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Droid Sans';-inkscape-font-specification:'Droid Sans Bold'">$</flowPara></flowRoot></svg>
+  <g
+     id="g3338">
+    <path
+       id="rect4141"
+       d="m 0,0 823.72882,0 0,823.72882 -823.72882,0 z"
+       style="opacity:1;fill:#6e2b7f;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:46;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="flowRoot4143"
+       style="font-style:normal;font-weight:normal;font-size:673.10308838px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       transform="translate(174.82963,42.93883)">
+      <path
+         id="path3376"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Droid Sans';-inkscape-font-specification:'Droid Sans Bold'"
+         d="m 395.28632,454.87112 q 0,24.64977 -8.87392,45.68424 -8.54525,21.03447 -25.96443,36.81032 -17.0905,15.77586 -42.72627,25.96443 -25.63576,10.18857 -59.15945,13.47521 l 0,67.37604 -45.02691,0 0,-66.06139 q -21.6918,-0.65732 -40.09696,-2.62931 -18.40517,-1.97198 -34.50968,-5.58728 -16.10452,-3.6153 -30.89438,-8.54525 -14.461204,-5.25862 -28.59374,-11.50323 l 0,-86.76719 q 13.803872,6.90193 29.90839,13.14654 16.43318,6.24461 33.85235,11.50323 17.41917,4.92995 35.16701,8.54525 18.0765,3.6153 35.16701,4.60129 l 0,-104.51503 q -2.62931,-0.98599 -5.58729,-2.30064 -2.6293,-0.98599 -5.25861,-1.97198 -2.62931,-0.98599 -4.60129,-1.64332 -29.90839,-11.50323 -52.25752,-23.99245 -22.34912,-12.48921 -37.46765,-27.9364 -14.789864,-15.44719 -22.349127,-34.18102 -7.2306,-18.73383 -7.2306,-42.39761 0,-24.64977 9.202582,-44.69825 9.531244,-20.37714 26.950415,-35.16701 17.41917,-15.11852 42.39761,-24.3211 24.97843,-9.53125 56.20148,-12.48922 l 0,-51.600189 45.02691,0 0,49.628209 q 28.59374,1.64332 58.50213,8.21659 29.90839,6.57327 62.77475,20.70581 l -33.19503,76.90728 q -21.36313,-8.54525 -44.69825,-15.11852 -23.00645,-6.90194 -43.3836,-8.54526 l 0,96.29844 12.81788,4.60129 q 31.22305,11.50323 54.55816,23.66378 23.33512,12.16056 38.78231,27.27908 15.44719,15.11853 23.00645,33.85236 7.55927,18.73382 7.55927,43.71226 z m -98.92775,1.97198 q 0,-7.88793 -2.30065,-13.80387 -1.97198,-5.91595 -6.57327,-10.8459 -4.60129,-4.92996 -11.83189,-8.87392 -6.90194,-4.27263 -17.09051,-8.87392 l 0,82.82323 q 19.39116,-2.95797 28.59374,-12.81788 9.20258,-9.85991 9.20258,-27.60774 z M 177.711,259.64493 q 0,15.44719 8.54526,25.96442 8.54525,10.18858 27.27908,17.09051 l 0,-76.57862 q -17.74784,1.97198 -26.95042,9.85991 -8.87392,7.88792 -8.87392,23.66378 z" />
+    </g>
+  </g>
+</svg>
