@@ -11,19 +11,6 @@ input {
     background-color: #FFF
 }
 
-.clear {
-    clear: both
-}
-
-.clearfix:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0
-}
-
 .left {
     float: left
 }
@@ -37,13 +24,14 @@ input {
 }
 
 body {
-    font: 14px Open Sans, sans-serif
+    font: 14px 'Open Sans', sans-serif
 }
 
-#layout {
+#main {
     width: 580px;
     margin: 0 auto;
-    padding: 10px
+    padding: 10px;
+    text-align: center
 }
 
 header {
@@ -53,10 +41,18 @@ header {
     text-align: center
 }
 
-a {
-    text-decoration: none;
+header a {
     color: #FFF;
     display: inline-block
+}
+
+a#show-steps {
+    display: none;
+    color: #6E2B77
+}
+
+a {
+    text-decoration: none
 }
 
 a:hover {
@@ -64,8 +60,7 @@ a:hover {
 }
 
 h1 {
-    font-size: 25px;
-    text-align: center
+    font-size: 25px
 }
 
 .moeda {
@@ -77,33 +72,60 @@ label {
     text-align: right
 }
 
-.moeda input[type="text"] {
+input[type="text"] {
     padding: 3px;
+    color: #24292E
+}
+
+.moeda input[type="text"] {
     width: 180px;
     border: 1px solid #CCC
 }
 
+.moeda input[type="text"]:focus {
+    border-color: #6E2B77;
+    outline: 0
+}
+
+#vars {
+    margin-bottom: 30px;
+    clear: both
+}
+
 #vars input[type="text"] {
     margin: 30px 20px 0 0;
-    padding: 3px;
     width: 50px;
     border: 0;
     border-bottom: 1px solid #DDD
 }
 
-:focus {
-    outline: 1px solid #6E2B77
+#vars input[type="text"]:last-child {
+    margin-right: 0
+}
+
+#vars input[type="text"]:focus {
+    border-bottom-color:#6E2B77;
+    outline: 0
+}
+
+#step-to-step {
+    display: none;
+    margin: 0 auto;
+    padding: 10px;
+    width: 400px;
+    color: #444;
+    background-color: #F0E9F1;
+    border-top: 3px solid #6E2B77
 }
 
 [disabled] {
-    background: #EEE;
+    background-color: #EEE;
     cursor: wait
 }
 
 @media only screen and (max-width: 620px) {
-    #layout {
-        width: 320px;
-        text-align: center
+    #main, #step-to-step {
+        width: 320px
     }
 
     .left, .right {
@@ -117,5 +139,10 @@ label {
     .moeda label {
         display: inline-block;
         width: 80px
+    }
+
+    #step-to-step {
+        margin-bottom: 40px;
+        font-size: 12px
     }
 }

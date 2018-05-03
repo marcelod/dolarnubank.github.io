@@ -6,6 +6,8 @@ var $brl = document.getElementById('brl');
 var $ptax = document.getElementById('ptax');
 var $iof = document.getElementById('iof');
 var $spread = document.getElementById('spread');
+var $showSteps = document.getElementById('show-steps');
+var $stepToStep = document.getElementById('step-to-step');
 
 var defaultIof = 6.38;
 var defaultSpread = 4.073; // [carece de fontes]
@@ -16,9 +18,6 @@ window[jsonpCallback] = function(response) {
     try {
         $ptax.value = numToStr(response.query.results.json.conteudo[0].
             valorVenda);
-
-        $iof.value = numToStr(defaultIof);
-        $spread.value = numToStr(defaultSpread);
     }
     catch(e) {
         $usd.value = 'Erro';
@@ -26,8 +25,13 @@ window[jsonpCallback] = function(response) {
         return;
     }
 
+    $iof.value = numToStr(defaultIof);
+    $spread.value = numToStr(defaultSpread);
+
     $usd.removeAttribute('disabled');
     $brl.removeAttribute('disabled');
+
+    $showSteps.style.display = 'block';
 
     var hash = location.hash.slice(1);
     if (hash) {
@@ -108,7 +112,12 @@ function usdToBrl() {
     }
 
     $brl.value = numToStr(value);
-    location.replace('#dolar=' + usd);
+
+    if ($showSteps === null) {
+        stepToStepUsdToBrl();
+    }
+
+    location.replace('#dolar=' + $usd.value);
 }
 
 function brlToUsd() {
@@ -132,7 +141,87 @@ function brlToUsd() {
     }
 
     $usd.value = numToStr(value);
-    location.replace('#real=' + brl);
+
+    if ($showSteps === null) {
+        stepToStepUsdToBrl();
+    }
+
+    location.replace('#real=' + $brl.value);
+}
+
+function stepToStepUsdToBrl() {
+    // Para uma maior precisão de cálculos, vamos usar a biblioteca big.js
+
+    var decimalPlaces = 5;
+
+    var floatPtax = strToNum($ptax.value); // Valor decimal (float)
+    var strPtax = numToStr(floatPtax);     // Texto com vírgula
+    var bigPtax = Big(floatPtax);          // Valor preciso
+
+    var floatUsd = strToNum($usd.value);
+    var strUsd = numToStr(floatUsd);
+    var bigUsd = Big(floatUsd);
+
+    var floatSpread = strToNum($spread.value);
+    var bigSpread = Big(floatSpread);
+
+    var floatIof = strToNum($iof.value);
+    var bigIof = Big(floatIof);
+
+    var bigCalc;
+    var strCalc;
+
+    var html = '';
+
+    html += '// Anote o valor do dólar PTAX (venda) no site do BC<br>';
+    html += '= ' + strPtax + '<br><br>';
+
+    bigCalc = bigPtax.times(bigUsd).round(decimalPlaces);
+    strCalc = numToStr(bigCalc);
+
+    html += '// Multiplique pelo valor da sua compra<br>';
+    html += '= ' + strPtax + ' × ' + strUsd + '<br>';
+    html += '= ' + strCalc + '<br><br>';
+
+    var bigSpreadDiv100 = bigSpread.div(100).round(decimalPlaces);
+    var bigCalcTimesSpread = bigCalc.times(bigSpreadDiv100).round(decimalPlaces);
+
+    html += '// Adicione o spread<br>';
+    html += '= ' + strCalc + ' + (' + strCalc + ' × ';
+    html += numToStr(bigSpreadDiv100) + ')<br>';
+    html += '= ' + strCalc + ' + ' + numToStr(bigCalcTimesSpread) + '<br>';
+
+    bigCalc = bigCalc.plus(bigCalcTimesSpread).round(decimalPlaces);
+    strCalc = numToStr(bigCalc);
+
+    html += '= ' + strCalc + '<br><br>';
+
+    var bigIofDiv100 = bigIof.div(100).round(decimalPlaces);
+    var bigCalcTimesIof = bigCalc.times(bigIofDiv100).round(decimalPlaces);
+
+    html += '// Adicione o IOF<br>';
+    html += '= ' + strCalc + ' + (' + strCalc + ' × ';
+    html += numToStr(bigIofDiv100) + ')<br>';
+    html += '= ' + strCalc + ' + ' + numToStr(bigCalcTimesIof) + '<br>';
+
+    bigCalc = bigCalc.plus(bigCalcTimesIof).round(decimalPlaces);
+    strCalc = numToStr(bigCalc);
+
+    html += '= ' + strCalc + '<br><br>';
+
+    html += '// Valor total na sua fatura, arredondado<br>';
+    html += '= ' + numToStr(round(bigCalc));
+
+    $stepToStep.innerHTML = html;
+}
+
+function showSteps() {
+    include('big.min.js', function() {
+        $showSteps.parentNode.removeChild($showSteps);
+        $showSteps = null;
+        stepToStepUsdToBrl();
+        $stepToStep.style.display = 'block';
+    });
 }
 
 function round(value) {
@@ -149,9 +238,40 @@ function zero(n) {
     return n < 10 ? '0' + n : n;
 }
 
+function include(url, callback) {
+    var elem = document.createElement('script');
+    elem.type = 'text/javascript';
+    elem.async = 'async';
+    elem.src = url;
+
+    if (elem.readyState) {
+        elem.onreadystatechange = function () {
+            if (elem.readyState === 'loaded' ||
+                elem.readyState === 'complete') {
+                elem.onreadystatechange = null;
+                callback && callback();
+            }
+        };
+    }
+    else {
+        elem.onload = function() {
+            elem.onload = null;
+            callback && callback();
+        };
+    }
+
+    document.body.appendChild(elem);
+}
+
 function onInput(obj, callback) {
     obj.addEventListener('input', function() {
         callback();
+    });
+}
+
+function onClick(obj, callback) {
+    obj.addEventListener('click', function(e) {
+        callback(e);
     });
 }
 
@@ -160,14 +280,24 @@ onInput($brl, brlToUsd);
 onInput($iof, usdToBrl);
 onInput($spread, usdToBrl);
 onInput($ptax, usdToBrl);
+onClick($showSteps, function(e) {
+    e.preventDefault();
+    showSteps();
+});
+
+// Se a tela for pequena, já adiciona uma barra de rolagem, para que ao
+// clicar em "mostrar passo a passo" não faça o layout andar
+if (window.innerHeight < 627) {
+    document.body.style.overflowY = 'scroll';
+}
 
 
 // Pegar dados do Banco Central usando a api do Yahoo YQL
 var d = new Date();
-var nocache = '' + d.getFullYear()
-    + zero(d.getMonth() + 1)
-    + zero(d.getDate())
-    + zero(d.getHours());
+var nocache = '' + d.getFullYear() +
+    zero(d.getMonth() + 1) +
+    zero(d.getDate()) +
+    zero(d.getHours());
 
 var query = 'select * from json where url="';
 query += 'https://www.bcb.gov.br/api/conteudo/pt-br/PAINEL_INDICADORES/cambio?';
