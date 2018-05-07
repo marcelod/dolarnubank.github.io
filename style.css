@@ -46,8 +46,8 @@ header a {
     display: inline-block
 }
 
-a#show-steps {
-    display: none;
+form a {
+    margin: 8px;
     color: #6E2B77
 }
 

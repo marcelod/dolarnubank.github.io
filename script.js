@@ -31,8 +31,6 @@ window[jsonpCallback] = function(response) {
     $usd.removeAttribute('disabled');
     $brl.removeAttribute('disabled');
 
-    $showSteps.style.display = 'block';
-
     var hash = location.hash.slice(1);
     if (hash) {
         var query = queryStringParse(hash);
@@ -113,7 +111,7 @@ function usdToBrl() {
 
     $brl.value = numToStr(value);
 
-    if ($showSteps === null) {
+    if ($stepToStep.childElementCount) {
         stepToStepUsdToBrl();
     }
 
@@ -142,7 +140,7 @@ function brlToUsd() {
 
     $usd.value = numToStr(value);
 
-    if ($showSteps === null) {
+    if ($stepToStep.childElementCount) {
         stepToStepUsdToBrl();
     }
 
@@ -215,15 +213,6 @@ function stepToStepUsdToBrl() {
     $stepToStep.innerHTML = html;
 }
 
-function showSteps() {
-    include('big.min.js', function() {
-        $showSteps.parentNode.removeChild($showSteps);
-        $showSteps = null;
-        stepToStepUsdToBrl();
-        $stepToStep.style.display = 'block';
-    });
-}
-
 function round(value) {
     // Arredondar valor final (https://stackoverflow.com/a/18358056)
     value = +(Math.round(value + "e+2")  + "e-2");
@@ -280,9 +269,30 @@ onInput($brl, brlToUsd);
 onInput($iof, usdToBrl);
 onInput($spread, usdToBrl);
 onInput($ptax, usdToBrl);
+
 onClick($showSteps, function(e) {
     e.preventDefault();
-    showSteps();
+
+    if ($usd.disabled) {
+        return;
+    }
+
+    if ($stepToStep.childElementCount) {
+        $stepToStep.innerHTML = '';
+        $stepToStep.style.display = 'none';
+    }
+    else {
+        if (window.Big) {
+            stepToStepUsdToBrl();
+            $stepToStep.style.display = 'block';
+        }
+        else {
+            include('big.min.js', function() {
+                stepToStepUsdToBrl();
+                $stepToStep.style.display = 'block';
+            });
+        }
+    }
 });
 
 // Se a tela for pequena, já adiciona uma barra de rolagem, para que ao
