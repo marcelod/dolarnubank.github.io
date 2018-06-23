@@ -1,4 +1,7 @@
 # Dólar do Nubank
+
+![Valor Nubank](valor-nubank.png)
+
 O objetivo do site [dolarnubank.github.io](https://dolarnubank.github.io)
 é calcular o valor aproximado que vai aparecer na fatura quando for feita
 uma compra internacional usando o cartão de crédito do Nubank.
@@ -11,12 +14,6 @@ O Nubank afirma que o spread é de 4%, no entanto essa porcentagem varia
 todo dia, segundo um critério desconhecido, chegando a 4,3% ou mais. A segunda
 fórmula permite calcular o valor exato do spread considerando o valor que
 aparece na fatura, a cotação do dólar PTAX e o valor da compra em dólares.
-
----
-
-## O print abaixo mostra o site calculando o valor corretamente
-
-![Valor Nubank](valor-nubank.png)
 
 ---
 
@@ -60,7 +57,7 @@ O valor na fatura do Nubank é de R$ 104,20
 
 Assim se calcula o spread:
 
-    S = (V / 1,0638 * C * P) - 1
+    S = (V / (1,0638 * C * P)) - 1
 
 
 Explicação da fórmula:
@@ -71,11 +68,13 @@ Explicação da fórmula:
 
 - Adicione o IOF de 6,38%: `V = 1,0638 * S * C * P`
 
-- Então: `S = V / 1,0638 * C * P`
+- Então: `S = V / (1,0638 * C * P)`
 
 
 `S` vai resultar em algo como 1,04, que representa um aumento de 4%, então
-subtraímos 1 da fórmula: `S = (V / 1,0638 * C * P) - 1`
+subtraímos 1 da fórmula:
+
+`S = (V / (1,0638 * C * P)) - 1`
 
 
 
@@ -85,8 +84,8 @@ Foi feita uma compra de US$ 25,00, com dólar PTAX a 3,7566. Na fatura do Nubank
 aparece o valor final de R$ 104,27. Qual é a porcentagem do spread do Nubank?
 
 
-    S = (V / 1,0638 * C * P) - 1
-    S = 104,27 / (1,0638 * 25 * 3,7566) - 1
+    S = (V / (1,0638 * C * P)) - 1
+    S = (104,27 / (1,0638 * 25 * 3,7566)) - 1
     S = (104,27 / 99,906777) - 1
     S = 0,0436729432279
 
