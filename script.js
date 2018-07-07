@@ -10,7 +10,7 @@ var $showSteps = document.getElementById('show-steps');
 var $stepToStep = document.getElementById('step-to-step');
 
 var defaultIof = 6.38;
-var defaultSpread = 4.073; // [carece de fontes]
+var defaultSpread = 4;
 
 var jsonpCallback = 'onReceiveData';
 
